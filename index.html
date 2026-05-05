@@ -9,6 +9,7 @@
   :root {
     --bg: #0f172a;
     --card: #1e293b;
+    --card-2: #273449;
     --border: #334155;
     --text: #e2e8f0;
     --muted: #94a3b8;
@@ -24,15 +25,16 @@
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
     background: var(--bg);
     color: var(--text);
-    line-height: 1.5;
+    line-height: 1.55;
     padding: 16px;
     padding-bottom: 80px;
   }
   .wrap { max-width: 720px; margin: 0 auto; }
   h1 {
-    font-size: 1.4rem;
+    font-size: 1.5rem;
     margin: 0 0 4px;
     color: #fff;
+    line-height: 1.25;
   }
   .sub {
     font-size: .85rem;
@@ -49,12 +51,40 @@
   }
   .card h2 {
     font-size: 1rem;
-    margin: 0 0 12px;
+    margin: 0 0 8px;
     color: var(--accent);
     display: flex;
     align-items: center;
     gap: 8px;
   }
+  .step-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    background: var(--accent);
+    color: var(--bg);
+    border-radius: 50%;
+    font-size: .85rem;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .help {
+    font-size: .85rem;
+    color: var(--muted);
+    margin: 0 0 14px;
+    padding: 0;
+  }
+  .help strong { color: var(--text); font-weight: 600; }
+  .intro {
+    background: linear-gradient(135deg, rgba(56,189,248,.08), rgba(52,211,153,.08));
+    border: 1px solid var(--accent);
+  }
+  .intro h2 { color: var(--accent); }
+  .intro p { font-size: .92rem; color: var(--text); margin: 8px 0; }
+  .intro ul { margin: 8px 0; padding-left: 20px; font-size: .88rem; color: var(--text); }
+  .intro li { margin-bottom: 4px; }
   .obra {
     display: flex;
     align-items: flex-start;
@@ -116,8 +146,6 @@
     outline: none;
     border-color: var(--accent);
   }
-  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  @media (max-width: 480px) { .row { grid-template-columns: 1fr; } }
   .toggle {
     display: flex;
     background: var(--bg);
@@ -144,7 +172,7 @@
   }
   .resultado {
     background: linear-gradient(135deg, rgba(52,211,153,.1), rgba(56,189,248,.1));
-    border: 1px solid var(--accent-2);
+    border: 2px solid var(--accent-2);
   }
   .resultado h2 { color: var(--accent-2); }
   .res-row {
@@ -160,25 +188,25 @@
   .res-row .value { font-weight: 600; color: var(--text); }
   .destaque {
     text-align: center;
-    padding: 16px;
+    padding: 18px;
     margin-top: 12px;
     background: var(--accent);
     color: var(--bg);
     border-radius: 10px;
   }
   .destaque .num {
-    font-size: 1.8rem;
+    font-size: 2rem;
     font-weight: 700;
-    margin: 4px 0;
+    margin: 6px 0;
   }
   .destaque .desc { font-size: .85rem; opacity: .85; }
   .nota {
-    font-size: .75rem;
+    font-size: .78rem;
     color: var(--muted);
-    background: rgba(251,191,36,.05);
+    background: rgba(251,191,36,.08);
     border-left: 3px solid var(--warn);
     padding: 8px 10px;
-    margin-top: 8px;
+    margin-top: 10px;
     border-radius: 4px;
   }
   .totais-edif {
@@ -188,8 +216,9 @@
     border: 1px dashed var(--accent);
     border-radius: 6px;
     font-size: .85rem;
+    text-align: center;
   }
-  .totais-edif strong { color: var(--accent); }
+  .totais-edif strong { color: var(--accent); font-size: 1rem; }
   .preset {
     display: inline-block;
     padding: 4px 10px;
@@ -218,145 +247,234 @@
     color: var(--accent);
     font-weight: 600;
   }
-  details ul { padding-left: 18px; }
+  .toc-list {
+    margin: 0;
+    padding-left: 22px;
+    font-size: .9rem;
+  }
+  .toc-list li { margin-bottom: 6px; }
+  .toc-list strong { color: var(--accent); }
+  .obra-group {
+    font-size: .78rem;
+    color: var(--accent);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    margin: 14px 0 6px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid var(--border);
+  }
+  .obra.indent { margin-left: 12px; border-left: 2px solid var(--accent); }
+  .subtotal {
+    font-size: .82rem;
+    color: var(--muted);
+    text-align: right;
+    padding: 4px 12px 8px;
+    margin-bottom: 8px;
+    background: rgba(56,189,248,.04);
+    border-radius: 0 0 8px 8px;
+  }
+  .subtotal strong { color: var(--accent); }
 </style>
 </head>
 <body>
 <div class="wrap">
-  <h1>🏗️ Calculadora Obras Condomínio</h1>
-  <div class="sub">Castelo Branco • Sta Maria da Feira • Orçamento 04/05/2026</div>
+
+  <h1>🏗️ Obras do Edifício — Calculadora</h1>
+  <div class="sub">Condomínio Castelo Branco · Sta Maria da Feira · Maio 2026</div>
+
+  <!-- INTRODUÇÃO -->
+  <div class="card intro">
+    <h2>👋 Bem-vindo</h2>
+    <p>Esta página ajuda-o a perceber <strong>quanto vai pagar a sua fracção</strong> pelas obras propostas para o nosso prédio, e como pode <strong>distribuir esse pagamento ao longo do tempo</strong>.</p>
+    <p>Em poucos segundos, escolhe as obras, indica o seu apartamento e descobre:</p>
+    <ul>
+      <li>Quanto vai custar à sua fracção (no total)</li>
+      <li>Quanto paga por mês se quiser dividir em prestações</li>
+      <li>Ou quantos meses precisa, se já souber quanto consegue pagar por mês</li>
+    </ul>
+    <p style="margin-top:12px;font-size:.85rem;color:var(--muted);">⏱️ <strong style="color:var(--text);">Demora cerca de 1 minuto.</strong> Os 4 passos estão em baixo:</p>
+    <ol class="toc-list">
+      <li><strong>Obras</strong> — escolher quais simular</li>
+      <li><strong>Caixa</strong> — quanto usar do fundo do condomínio</li>
+      <li><strong>A sua fracção</strong> — qual é o seu apartamento</li>
+      <li><strong>Pagamento</strong> — em quantos meses quer pagar</li>
+    </ol>
+  </div>
 
   <!-- 1. SELECÇÃO DE OBRAS -->
   <div class="card">
-    <h2>1. Obras a realizar</h2>
+    <h2><span class="step-num">1</span> Obras a realizar</h2>
+    <p class="help">Estas são as <strong>obras propostas pela empresa SM Construções</strong> no orçamento de 04/05/2026 (A, B, C, D), mais a instalação eléctrica da garagem para carros eléctricos (E) e a reparação da entrada partilhada (F).<br><br>A obra da fachada (B) está dividida em <strong>3 partes que podem ser escolhidas separadamente</strong> — zonas críticas das janelas (B.1), superfície geral (B.2) e sistema anti-aves (B.3).<br><br>Por defeito estão <strong>todas seleccionadas</strong>. Pode desmarcar as que não quer simular para ver cenários diferentes. Os valores incluem IVA.</p>
     <div id="obras-list"></div>
     <div class="totais-edif">
-      Total selecionado (edifício): <strong id="total-edif">0,00 €</strong>
+      Total das obras seleccionadas (edifício inteiro): <br><strong id="total-edif">0,00 €</strong>
     </div>
   </div>
 
   <!-- 2. FUNDO DE RESERVA -->
   <div class="card">
-    <h2>2. Fundo de reserva a aplicar</h2>
+    <h2><span class="step-num">2</span> Fundo de reserva do condomínio</h2>
+    <p class="help">O condomínio tem cerca de <strong>27.000 €</strong> acumulados em caixa. Este dinheiro pode ser usado <strong>já</strong> para pagar parte das obras, reduzindo o que cada condómino tem de desembolsar.<br><br>Pode escolher quanto deste valor quer usar — ou deixar parte em reserva para emergências.</p>
     <div class="input-grp">
-      <label>Caixa disponível para usar agora (€)</label>
+      <label>Quanto usar do fundo do condomínio (€)</label>
       <input type="number" id="caixa" value="27000" min="0" step="500">
     </div>
     <div class="presets-row">
-      <span class="preset" onclick="setCaixa(0)">0 €</span>
-      <span class="preset" onclick="setCaixa(10000)">10k</span>
-      <span class="preset" onclick="setCaixa(20000)">20k</span>
-      <span class="preset active" onclick="setCaixa(27000)">27k (tudo)</span>
+      <span style="font-size:.75rem;color:var(--muted);">Atalhos:</span>
+      <span class="preset" onclick="setCaixa(0)">Não usar</span>
+      <span class="preset" onclick="setCaixa(10000)">Usar 10k</span>
+      <span class="preset" onclick="setCaixa(20000)">Usar 20k</span>
+      <span class="preset active" onclick="setCaixa(27000)">Usar tudo (27k)</span>
     </div>
-    <div class="nota">⚠️ Esvaziar o fundo de reserva pode comprometer reparações urgentes futuras. Recomenda-se manter pelo menos 6-12 meses de quota corrente em caixa.</div>
+    <div class="nota">⚠️ Esvaziar o fundo a 100% deixa o condomínio sem almofada para imprevistos. Recomenda-se guardar pelo menos <strong>3 a 6 meses</strong> de quota corrente em caixa.</div>
   </div>
 
   <!-- 3. FRACÇÃO -->
   <div class="card">
-    <h2>3. A sua fracção</h2>
+    <h2><span class="step-num">3</span> Qual é o seu apartamento?</h2>
+    <p class="help">Cada apartamento paga uma fatia das obras <strong>proporcional à sua dimensão</strong>. Esta fatia chama-se <strong>permilagem</strong> (medida em "por mil" — ‰).<br><br>No nosso prédio temos 3 tipos de fracção. Escolha o seu:</p>
     <div class="input-grp">
-      <label>Permilagem da fracção (‰)</label>
-      <input type="number" id="permilagem" value="50" min="0" max="1000" step="0.1">
+      <label>Tipo de apartamento</label>
+      <select id="tipo-frac" onchange="onTipoChange()">
+        <option value="48">Direito (48 ‰) — apartamentos do lado direito</option>
+        <option value="44">Esquerdo (44 ‰) — apartamentos do lado esquerdo</option>
+        <option value="40">Frente (40 ‰) — apartamentos da frente</option>
+        <option value="custom">Outro / inserir valor manualmente</option>
+      </select>
     </div>
-    <div class="presets-row">
-      <span style="font-size:.75rem;color:var(--muted);">Atalhos comuns:</span>
-      <span class="preset" onclick="setPerm(25)">25‰</span>
-      <span class="preset" onclick="setPerm(33.33)">33‰</span>
-      <span class="preset" onclick="setPerm(50)">50‰</span>
-      <span class="preset" onclick="setPerm(66.67)">67‰</span>
-      <span class="preset" onclick="setPerm(100)">100‰</span>
+    <div class="input-grp" id="perm-manual" style="display:none;">
+      <label>Permilagem da sua fracção (‰)</label>
+      <input type="number" id="permilagem" value="48" min="0" max="1000" step="0.01">
     </div>
-    <div class="nota">💡 A permilagem está descrita no título constitutivo da propriedade horizontal. Soma de todas as fracções = 1000‰. Se não souber, usar percentagem (% × 10).</div>
+    <div class="nota">💡 A permilagem está descrita na <strong>escritura</strong> e na <strong>declaração de condomínio</strong>. Não a sabe? Use os valores acima conforme a posição do seu apartamento. Em caso de dúvida pergunte ao administrador.</div>
   </div>
 
   <!-- 4. MODO DE CÁLCULO -->
   <div class="card">
-    <h2>4. Como quer pagar?</h2>
+    <h2><span class="step-num">4</span> Como prefere pagar?</h2>
+    <p class="help">A sua parte das obras pode ser paga em <strong>prestações mensais</strong>, somadas à quota normal do condomínio. Pode escolher entre dois modos:</p>
     <div class="toggle">
-      <button id="btn-modo-meses" class="active" onclick="setModo('meses')">Definir prazo</button>
-      <button id="btn-modo-mensal" onclick="setModo('mensal')">Definir mensalidade</button>
+      <button id="btn-modo-meses" class="active" onclick="setModo('meses')">A. Definir o prazo</button>
+      <button id="btn-modo-mensal" onclick="setModo('mensal')">B. Definir a mensalidade</button>
     </div>
 
     <div id="modo-meses-ui">
+      <p class="help" style="margin-top:0;font-size:.8rem;">📌 <strong>Modo A:</strong> escolhe em quantos meses quer pagar. A calculadora mostra-lhe quanto vai pagar por mês.</p>
       <div class="input-grp">
-        <label>Número de prestações mensais</label>
+        <label>Em quantos meses quer pagar?</label>
         <input type="number" id="meses" value="24" min="1" max="120" step="1">
       </div>
       <div class="presets-row">
-        <span class="preset" onclick="setMeses(6)">6m</span>
-        <span class="preset" onclick="setMeses(12)">12m</span>
-        <span class="preset active" onclick="setMeses(24)">24m</span>
-        <span class="preset" onclick="setMeses(36)">36m</span>
-        <span class="preset" onclick="setMeses(48)">48m</span>
-        <span class="preset" onclick="setMeses(60)">60m</span>
+        <span style="font-size:.75rem;color:var(--muted);">Prazos típicos:</span>
+        <span class="preset" onclick="setMeses(6)">6 meses</span>
+        <span class="preset" onclick="setMeses(12)">1 ano</span>
+        <span class="preset active" onclick="setMeses(24)">2 anos</span>
+        <span class="preset" onclick="setMeses(36)">3 anos</span>
+        <span class="preset" onclick="setMeses(48)">4 anos</span>
+        <span class="preset" onclick="setMeses(60)">5 anos</span>
       </div>
     </div>
 
     <div id="modo-mensal-ui" style="display:none;">
+      <p class="help" style="margin-top:0;font-size:.8rem;">📌 <strong>Modo B:</strong> indica quanto consegue pagar por mês. A calculadora mostra-lhe em quantos meses fica saldado.</p>
       <div class="input-grp">
-        <label>Mensalidade máxima que pode pagar (€)</label>
+        <label>Quanto consegue pagar por mês (€)?</label>
         <input type="number" id="mensalidade-max" value="100" min="10" step="10">
       </div>
       <div class="presets-row">
-        <span class="preset" onclick="setMensal(50)">50€</span>
-        <span class="preset" onclick="setMensal(100)">100€</span>
-        <span class="preset" onclick="setMensal(150)">150€</span>
-        <span class="preset" onclick="setMensal(200)">200€</span>
-        <span class="preset" onclick="setMensal(300)">300€</span>
+        <span class="preset" onclick="setMensal(50)">50 €</span>
+        <span class="preset" onclick="setMensal(100)">100 €</span>
+        <span class="preset" onclick="setMensal(150)">150 €</span>
+        <span class="preset" onclick="setMensal(200)">200 €</span>
+        <span class="preset" onclick="setMensal(300)">300 €</span>
       </div>
     </div>
   </div>
 
   <!-- 5. RESULTADO -->
   <div class="card resultado">
-    <h2>📊 O que vai pagar</h2>
-    <div class="res-row"><span class="label">Total obras seleccionadas (com IVA)</span><span class="value" id="r-total">—</span></div>
-    <div class="res-row"><span class="label">– Fundo de reserva</span><span class="value" id="r-caixa">—</span></div>
-    <div class="res-row"><span class="label">= A financiar pelos condóminos</span><span class="value" id="r-financiar">—</span></div>
-    <div class="res-row"><span class="label">Sua fracção (permilagem)</span><span class="value" id="r-perm">—</span></div>
-    <div class="res-row"><span class="label">Total a pagar pela sua fracção</span><span class="value" id="r-fraccao" style="color:var(--accent-2);font-size:1.05rem;">—</span></div>
+    <h2>📊 O que a sua fracção vai pagar</h2>
+    <p class="help" style="margin-bottom:8px;">Resumo do cálculo com base nas suas escolhas:</p>
+    <div class="res-row"><span class="label">Total das obras (todo o edifício)</span><span class="value" id="r-total">—</span></div>
+    <div class="res-row"><span class="label">– Fundo de reserva utilizado</span><span class="value" id="r-caixa">—</span></div>
+    <div class="res-row"><span class="label">= A dividir entre os condóminos</span><span class="value" id="r-financiar">—</span></div>
+    <div class="res-row"><span class="label">Permilagem da sua fracção</span><span class="value" id="r-perm">—</span></div>
+    <div class="res-row"><span class="label" style="font-weight:600;color:var(--text);">Total a pagar pela sua fracção</span><span class="value" id="r-fraccao" style="color:var(--accent-2);font-size:1.1rem;">—</span></div>
 
     <div class="destaque">
-      <div class="desc" id="r-destaque-label">Mensalidade durante 24 meses</div>
+      <div class="desc" id="r-destaque-label">A pagar mensalmente</div>
       <div class="num" id="r-destaque">—</div>
       <div class="desc" id="r-destaque-extra"></div>
     </div>
 
     <details>
-      <summary>Detalhe por obra</summary>
-      <div id="r-detalhe"></div>
+      <summary>Ver detalhe por obra (quanto cada uma custa à sua fracção)</summary>
+      <div id="r-detalhe" style="margin-top:8px;"></div>
+    </details>
+  </div>
+
+  <!-- AJUDA / FAQ -->
+  <div class="card">
+    <h2>❓ Perguntas frequentes</h2>
+    <details>
+      <summary>O que é permilagem?</summary>
+      <p style="margin:8px 0 0;font-size:.85rem;">Permilagem é a percentagem (em "por mil") que cada apartamento representa no edifício. A soma de todas as fracções dá sempre 1000‰. Se a sua fracção é 48‰, quer dizer que paga 4,8% das despesas comuns do prédio (obras incluídas).</p>
+    </details>
+    <details>
+      <summary>Posso simular vários cenários?</summary>
+      <p style="margin:8px 0 0;font-size:.85rem;">Sim. Os números actualizam-se automaticamente sempre que muda alguma coisa. Pode marcar/desmarcar obras, mudar prazo, mudar mensalidade — sem custo nem risco.</p>
+    </details>
+    <details>
+      <summary>Estes valores são definitivos?</summary>
+      <p style="margin:8px 0 0;font-size:.85rem;">Não. Os valores das obras vêm do orçamento da empresa SM Construções (04/05/2026). Antes de avançar com qualquer obra, a Assembleia de Condóminos vai votar e poderá pedir contra-orçamentos a outras empresas. Esta calculadora serve para cada um perceber o impacto financeiro pessoal antes da assembleia.</p>
+    </details>
+    <details>
+      <summary>Há juros nas prestações?</summary>
+      <p style="margin:8px 0 0;font-size:.85rem;">Esta calculadora assume <strong>0% de juros</strong> — ou seja, o condomínio cobra quotas extra mensais sem encargos financeiros. Se for utilizado financiamento bancário, os valores serão maiores.</p>
+    </details>
+    <details>
+      <summary>E os apoios do Estado / Câmara?</summary>
+      <p style="margin:8px 0 0;font-size:.85rem;">Está a ser estudado o enquadramento em ARU (Área de Reabilitação Urbana) que pode reduzir o IVA de 23% para 6% nas obras (poupança até €26.000). Também há apoios para mobilidade eléctrica que cobrem até 80% do custo dos carregadores. Estes valores ainda não estão reflectidos na calculadora — quando houver decisão, será actualizada.</p>
     </details>
   </div>
 
   <div class="card" style="font-size:.78rem;color:var(--muted);">
-    <strong style="color:var(--text);">Notas:</strong><br>
-    • Cálculo simples sem juros (assume que o condomínio cobra quotas extra mensais sem encargos financeiros).<br>
-    • Se pretender financiamento bancário, somar TAEG ao total.<br>
-    • Os valores das obras são os do orçamento SM Construções de 04/05/2026 (com IVA 23%) + EV charging + entrada partilhada.<br>
-    • Reparação da entrada (€11.125,54) é dividida por 3 condomínios → ≈ €3.708,51 para o nosso.
+    <strong style="color:var(--text);">📋 Notas técnicas:</strong><br>
+    • Os valores das obras vêm do orçamento <strong>SM Construções</strong> de 04/05/2026 (com IVA 23%).<br>
+    • A reparação da entrada (€11.125,54 total) é dividida por 3 condomínios → ≈ €3.708,51 para o nosso.<br>
+    • A instalação eléctrica para carros eléctricos (€5.902,54) tem orçamento separado.<br>
+    • Esta página é informativa. Decisões oficiais só em Assembleia de Condóminos.
   </div>
+
 </div>
 
 <script>
 const obras = [
-  { id: 'A', nome: 'A. Cobertura — correção de infiltrações',
-    desc: 'Substituição parcial de chapas, remates, impermeabilização (70m²)',
-    valor: 28843.50, prio: 'alta' },
-  { id: 'B', nome: 'B. Fachada — zonas críticas + geral + anti-aves',
-    desc: 'Andaime, biocida, hidrofugante, selagem caixilharias (1600m²)',
-    valor: 93989.22, prio: 'media' },
-  { id: 'C', nome: 'C. Terraço — remoção cerâmica + membrana',
-    desc: 'Remoção revestimento e aplicação membrana líquida (160m²)',
-    valor: 18622.20, prio: 'alta' },
-  { id: 'D', nome: 'D. Garagem — tetos e paredes (interior)',
-    desc: 'Tratamento humidade, biocida, repintura (350m²). Faz após C.',
-    valor: 19643.10, prio: 'media' },
-  { id: 'E', nome: 'E. Garagem — instalação eléctrica para EV',
-    desc: 'Reformulação para carregamento de carros eléctricos',
-    valor: 5902.54, prio: 'baixa' },
-  { id: 'F', nome: 'F. Entrada do prédio (partilhada)',
-    desc: 'Reparação. Total €11.125,54 ÷ 3 condomínios ≈ €3.708,51 para nós',
-    valor: 3708.51, prio: 'media' }
+  { id: 'A', nome: 'A. Cobertura (telhado) — correção de infiltrações',
+    desc: 'Substituição parcial de chapas, remates e impermeabilização (70m²). Resolve as infiltrações conhecidas no telhado.',
+    valor: 28843.50 },
+  { id: 'B1', nome: 'B.1. Fachada — zonas críticas (caixilharias e vãos)',
+    desc: 'Andaime na fachada completa + tratamento das envolventes das janelas: limpeza biocida, lavagem, reparação de fissuras, selagem perimetral, hidrofugante (600m²). ⚠️ Inclui o andaime que dá acesso a toda a fachada.',
+    valor: 68203.50 },
+  { id: 'B2', nome: 'B.2. Fachada — superfície geral (restante)',
+    desc: 'Tratamento da restante área da fachada: limpeza biocida, lavagem, hidrofugante e revisão geral (1000m²). Aproveita o andaime do B.1.',
+    valor: 25461.00 },
+  { id: 'B3', nome: 'B.3. Fachada — sistema anti-aves',
+    desc: 'Picos de aço inoxidável em zonas localizadas para evitar pouso de aves (12 metros lineares).',
+    valor: 324.72 },
+  { id: 'C', nome: 'C. Terraço superior — nova impermeabilização',
+    desc: 'Remoção do revestimento cerâmico actual e aplicação de membrana líquida (160m²). Resolve a fonte da humidade na garagem.',
+    valor: 18622.20 },
+  { id: 'D', nome: 'D. Garagem (interior) — tetos e paredes',
+    desc: 'Tratamento das manchas de humidade, fungos e repintura técnica (350m²). Deve ser feito depois do C.',
+    valor: 19643.10 },
+  { id: 'E', nome: 'E. Garagem — instalação eléctrica para carros eléctricos',
+    desc: 'Reformulação da instalação para permitir carregamento de veículos eléctricos. Orçamento separado.',
+    valor: 5902.54 },
+  { id: 'F', nome: 'F. Entrada do prédio (partilhada com 2 vizinhos)',
+    desc: 'Reparação da entrada. Custo total de €11.125,54 dividido por 3 condomínios = €3.708,51 para o nosso.',
+    valor: 3708.51 }
 ];
 
 let modo = 'meses';
@@ -367,25 +485,40 @@ function fmt(n) {
 
 function renderObras() {
   const list = document.getElementById('obras-list');
-  list.innerHTML = obras.map(o => `
-    <label class="obra">
-      <input type="checkbox" data-id="${o.id}" onchange="calcular()" checked>
-      <div class="obra-info">
-        <div class="obra-titulo">${o.nome}</div>
-        <div class="obra-desc">${o.desc}</div>
-      </div>
-      <div class="obra-valor">${fmt(o.valor)}</div>
-    </label>
-  `).join('');
+  let html = '';
+  obras.forEach((o, i) => {
+    const prev = obras[i-1];
+    const next = obras[i+1];
+    const isB = o.id.startsWith('B');
+    const prevIsB = prev && prev.id.startsWith('B');
+    const nextIsB = next && next.id.startsWith('B');
+
+    // Header antes da primeira obra B
+    if (isB && !prevIsB) {
+      html += `<div class="obra-group">🏢 Obra B — Fachada (3 partes que pode escolher individualmente)</div>`;
+    }
+
+    html += `
+      <label class="obra${isB ? ' indent' : ''}">
+        <input type="checkbox" data-id="${o.id}" onchange="calcular()" checked>
+        <div class="obra-info">
+          <div class="obra-titulo">${o.nome}</div>
+          <div class="obra-desc">${o.desc}</div>
+        </div>
+        <div class="obra-valor">${fmt(o.valor)}</div>
+      </label>
+    `;
+
+    // Subtotal depois da última obra B
+    if (isB && !nextIsB) {
+      html += `<div class="subtotal" id="subtotal-b">Subtotal Fachada (B): <strong id="subtotal-b-val">—</strong></div>`;
+    }
+  });
+  list.innerHTML = html;
 }
 
 function setCaixa(v) {
   document.getElementById('caixa').value = v;
-  document.querySelectorAll('#caixa ~ .presets-row .preset').forEach(p => p.classList.remove('active'));
-  calcular();
-}
-function setPerm(v) {
-  document.getElementById('permilagem').value = v;
   calcular();
 }
 function setMeses(v) {
@@ -404,22 +537,47 @@ function setModo(m) {
   document.getElementById('modo-mensal-ui').style.display = m === 'mensal' ? 'block' : 'none';
   calcular();
 }
+function onTipoChange() {
+  const sel = document.getElementById('tipo-frac');
+  const manualBox = document.getElementById('perm-manual');
+  const manualInput = document.getElementById('permilagem');
+  if (sel.value === 'custom') {
+    manualBox.style.display = 'flex';
+    manualInput.focus();
+  } else {
+    manualBox.style.display = 'none';
+    manualInput.value = sel.value;
+  }
+  calcular();
+}
+
+function getPermilagem() {
+  const sel = document.getElementById('tipo-frac');
+  if (sel.value === 'custom') {
+    return parseFloat(document.getElementById('permilagem').value) || 0;
+  }
+  return parseFloat(sel.value) || 0;
+}
 
 function calcular() {
   const checks = document.querySelectorAll('#obras-list input[type=checkbox]');
   let total = 0;
+  let subtotalB = 0;
   const detalhe = [];
   checks.forEach(c => {
     if (c.checked) {
       const o = obras.find(x => x.id === c.dataset.id);
       total += o.valor;
+      if (o.id.startsWith('B')) subtotalB += o.valor;
       detalhe.push(o);
     }
   });
+  const subB = document.getElementById('subtotal-b-val');
+  if (subB) subB.textContent = fmt(subtotalB);
 
   const caixa = Math.min(parseFloat(document.getElementById('caixa').value) || 0, total);
   const financiar = Math.max(0, total - caixa);
-  const perm = parseFloat(document.getElementById('permilagem').value) || 0;
+  const perm = getPermilagem();
   const fraccao = financiar * (perm / 1000);
   const fraccaoCaixa = caixa * (perm / 1000);
 
@@ -427,30 +585,32 @@ function calcular() {
   document.getElementById('r-total').textContent = fmt(total);
   document.getElementById('r-caixa').textContent = '– ' + fmt(caixa);
   document.getElementById('r-financiar').textContent = fmt(financiar);
-  document.getElementById('r-perm').textContent = perm.toFixed(2) + '‰';
+  document.getElementById('r-perm').textContent = perm.toFixed(2).replace('.',',') + ' ‰';
   document.getElementById('r-fraccao').textContent = fmt(fraccao);
 
   if (modo === 'meses') {
     const meses = parseInt(document.getElementById('meses').value) || 1;
     const mensal = fraccao / meses;
-    document.getElementById('r-destaque-label').textContent = `Mensalidade durante ${meses} meses`;
+    const anos = (meses / 12).toFixed(1).replace('.0','');
+    document.getElementById('r-destaque-label').textContent =
+      `Pagamento mensal durante ${meses} meses (≈ ${anos} ano${anos>1?'s':''})`;
     document.getElementById('r-destaque').textContent = fmt(mensal) + '/mês';
     document.getElementById('r-destaque-extra').textContent =
-      `(além disso, "abate" ${fmt(fraccaoCaixa)} do fundo de reserva)`;
+      caixa > 0 ? `(além disso, "abate" ${fmt(fraccaoCaixa)} do fundo de reserva da sua fracção)` : '';
   } else {
     const max = parseFloat(document.getElementById('mensalidade-max').value) || 1;
     const meses = Math.ceil(fraccao / max);
-    const anos = (meses / 12).toFixed(1);
-    document.getElementById('r-destaque-label').textContent = `A pagar ${fmt(max)}/mês`;
+    const anos = (meses / 12).toFixed(1).replace('.0','');
+    document.getElementById('r-destaque-label').textContent = `A pagar ${fmt(max)}/mês precisa de:`;
     document.getElementById('r-destaque').textContent = `${meses} meses`;
-    document.getElementById('r-destaque-extra').textContent = `≈ ${anos} anos`;
+    document.getElementById('r-destaque-extra').textContent = `(≈ ${anos} ano${anos>1?'s':''})`;
   }
 
   document.getElementById('r-detalhe').innerHTML = detalhe.map(o => {
     const v = o.valor * (perm / 1000);
-    return `<div style="display:flex;justify-content:space-between;padding:4px 0;font-size:.8rem;">
+    return `<div style="display:flex;justify-content:space-between;padding:4px 0;font-size:.82rem;border-bottom:1px dashed var(--border);">
       <span>${o.id} — ${o.nome.split('—')[0].trim()}</span>
-      <span style="color:var(--accent-2);">${fmt(v)}</span>
+      <span style="color:var(--accent-2);font-weight:600;">${fmt(v)}</span>
     </div>`;
   }).join('');
 }
